@@ -1,0 +1,12 @@
+{
+    "name": "EVM Query",
+    "version": "1.1",
+    "description": "Extends the Developer Tools, adding a sidebar that displays EVM access",
+    "devtools_page": "dev-evm.html",
+    "background": { "scripts": ["background.js"] },
+    "permissions": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "manifest_version": 2
+  }
