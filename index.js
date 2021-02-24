@@ -1,8 +1,11 @@
-import { generateUniqueId } from '../utils/common';
+// SPDX-License-Identifier: GPL-3.0
+// @file evm-iframe
+// @dev increment `this.id = #` manually 
 
+// @class EVM
 class EVM {
     constructor() {
-        this.id = generateUniqueId() + '_evm';
+        this.id = 12 + '_evm';
         this._queue = [];
         this.ref = null;
         this._counter = 0;
@@ -25,13 +28,15 @@ class EVM {
 
         ReactDOM.render(
             <div style={{display: 'none'}} id={this.id}>
-                <iframe ref={setRef} src="/evm/index-v11.html" frameBorder="0" />
+                <iframe ref={setRef} src="/evm/index-v12.html" frameBorder="0" />
             </div>,
             document.getElementById('evm')
         );
 
-        // This is temporarily that we share an object with the iframe.
-        // We should pass messages to it so that the interface can be "webworked" in the future.
+        // @devKitVM
+        // @param setBalance [address, value]
+        // @note this is temporarily that we share an object with the iframe.
+        // @note should pass messages to it so that the interface can be "webworked" in the future.
         this.queue({}, result => {
             this.devkitVm = result.devkitVm;
             this.provider = new this.devkitVm.Provider(this.devkitVm);
@@ -57,12 +62,15 @@ class EVM {
             );
             console.log('[VM] ready');
         });
-
+        
+        // @function setInterval
+        // @param processQueue {int}
+        // @summary the queue for work
         setInterval(this._processQueue, 100);
     }
-
-    // Return a web3 provider which asynchronously works together with the iframe.
-    // However, right now it directly uses the devkitVms provider.
+    // @function getProvider
+    // @summary: return a web3 provider which asynchronously works together with the iframe.
+    // @note However, right now it directly uses the devkitVms provider.
     getProvider = () => {
         return this.provider;
     };
@@ -78,7 +86,7 @@ class EVM {
     queue = (cmd, cb) => {
         const id = ++this._counter;
         this._cbMap[id] = cb;
-        this._queue.push({ data: cmd, id: id });
+        this._queue.push({ data: cmd, id: id }); // @param queue.push 
     };
 
     isLoaded = () => {
@@ -103,4 +111,5 @@ class EVM {
     };
 }
 
+// @export evmService
 export const evmService = new EVM();
